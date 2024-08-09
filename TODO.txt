@@ -1,0 +1,32 @@
+Analysis of Kotchan:
+- Standard Admin api (can probably reuse a lot? IDK maybe):
+  - Ban, slient, delete, etc...
+- Standard CRUD API for posts
+- Sockets:
+  - Unsubscribe and subscribe events to certain boards
+  - Unsub never called
+- Frontend
+  - We can probably reuse a lot of this, just will have to rehook up the
+    api endpoints
+  - JS Files with functionality in index.html:
+    - main.js
+    - rules.js
+    - disableanimation.js
+    - chat.js
+    - stickers.js
+    - paste.js
+- Must Refactor POST /chat/*
+  - Needless async library usage
+  - Learn the functionality, clean it up
+
+- Overview of current chat flow:
+  - Frontend makes POST /chat/* request to create chat message
+  - Server emits "chat" event upon creation of message
+    - Could slot in a request here to a discord webhook to provide discord chat functionality
+  - Concurrent clients hear event, create local html element for chat
+  - Current Flaws:
+    - Chat messages arent being saved in DB
+
+- (Long term goal) Database abstraction:
+  - Provider (database specific) hooks up to database-independent workflow layer
+  - Decouples database-specific logic from server logic, allows possibility to easily use other dbs in the future
