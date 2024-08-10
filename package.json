@@ -3,17 +3,19 @@
   "version": "1.0.0",
   "description": "This is a light-weight livechat server",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node --es-module-specifier-resolution=node dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/connect-busboy": "^1.0.3",
+    "connect-busboy": "^1.0.0",
     "express": "^4.19.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/source-map-support": "^0.5.10",
     "source-map-support": "^0.5.21",
     "typescript": "^5.5.4"
   }
