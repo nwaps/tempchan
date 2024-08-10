@@ -26,4 +26,23 @@ In its current state, this server does nothing but start up. The first goal shou
 
 The implementation details surrounding the chat api endpoints and socket interface can be found in [chat.md](./docs/chat.md). The only aspect of this diagram not documented yet is the frontend client. Kotchan's frontend will most likely be salvaged as our frontend. However, this will neccessitate some cleanup.
 
+## TODO
+
+- Implement basic server-side text chat creation and reading in chat API
+
+- Implement server-side user connection detection and chat forwarding through sockets
+
+- Implement image support in chat API
+
+- Implement security features in chat API
+  - IP and range bans
+  - Proxy bans
+  - Server-side post cooldown
+  - Word bans/replacement
+
+- Make chat creation API endpoint(s) forward chat messages to discord webhook
+
+- Port Kotchan front end code to work with server-side logic
+  - (This will require cleanup that I don't quite know the scope of. At least, we'll have to modify the requests to the chat API to match our new server's design)
+
 **note**: You can additionally checkout [TODO.txt](./TODO.txt) for disorganized notes about Kotchan and development plans

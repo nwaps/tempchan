@@ -10,11 +10,9 @@ router.post("chat/", (req, res, next) => {
 });
 
 router.get("chat/:board", (req, res, next) => {
-
 });
 
 router.get("data/:board", (req, res, next) => {
-
 });
 
 export default router;
