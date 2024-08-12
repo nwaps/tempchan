@@ -5,4 +5,6 @@
 
 export default {
     PORT: 3000,
+    DB_HOST: 'localhost',
+    DB_ADDR: 'tempchan_db',
 };

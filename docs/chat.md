@@ -55,7 +55,7 @@ response: [
         name: string
         body: string
         chat: string
-        count: int
+        post_id: int
         date: Date
         image: string
         image_filename: string
@@ -76,7 +76,7 @@ Response body:
 - `name`: alias of poster
 - `body`: body of message
 - `chat`: chat post belongs to
-- `count`: post number
+- `post_id`: post number
 - `date`: date created
 - `image`: absolute path to image stored on filesystem
 - `image_filename`: filename of image

@@ -6,17 +6,32 @@
 // Required configuration so runtime errors refer to typescript files,
 // not the output javascript files
 import 'source-map-support/register.js';
+
 // Import local config file
 import config from './config.js';
+
+// Import misc packages/functions
+import http from 'http';
 import express from 'express';
 import busboy from 'connect-busboy';
+import { Server, Socket } from 'socket.io';
+import mongoose from 'mongoose';
+import connection_handler from './src/sockets/connection_handler.js';
+
 // Import various middleware
 import debug_request from './src/middleware/debug_echo';
 import form_parser from './src/middleware/form_parser';
+
 // Import route endpoints
 import chat_routes from './src/routes/chat_routes';
+import { socket_data } from './src/sockets/socket.js';
 
+// Initialize Database
+mongoose.connect(`mongodb://${config.DB_HOST}/${config.DB_ADDR}`);
+
+// Initialize web server and sockets
 const app = express();
+socket_data.io = new Server(http.createServer(app));
 
 // Register middleware
 app.use(busboy({ immediate: true })); // Prereq for custom form parser middleware
@@ -26,7 +41,8 @@ app.use(debug_request); // Use debug middleware to print out request data as the
 // Register routes
 app.use(chat_routes);
 
-// Start server
+// Start server and socket connection
 app.listen(config.PORT, () => {
     console.log(`Listening on port ${config.PORT}`);
 });
+socket_data.io.on('connection', connection_handler);

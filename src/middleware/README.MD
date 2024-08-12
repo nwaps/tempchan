@@ -1,0 +1,3 @@
+# Middleware
+
+This directory is the central location where middleware code will be stored. For this project, middleware is utilized to preprocess/validate request data before the "main logic" of the request can occur. For example, when a user requests to create a chat document, the request first passes through middleware to validate the user's IP and preprocess chat/image data before the chat message can be created in the database and the chat is forwarded to other users.
