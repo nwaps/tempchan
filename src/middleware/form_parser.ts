@@ -7,6 +7,7 @@
 */
 
 import { NextFunction, Request, Response } from "express";
+import { chat_res } from "../models/chat_response";
 
 export default (req: Request, res: Response, next: NextFunction) => {
     if (req.method !== 'POST' || !req.busboy) {
@@ -26,6 +27,11 @@ export default (req: Request, res: Response, next: NextFunction) => {
     });
 
     req.busboy.on("error", (error) => {
-        res.status(400).json(error);
+        console.log(error);
+        const response: chat_res = {
+            message: "parsing_failure",
+            data: null
+        }
+        res.status(500).json(response);
     });
 };

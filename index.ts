@@ -12,6 +12,7 @@ import config from './config.js';
 
 // Import misc packages/functions
 import http from 'http';
+import path from 'path';
 import express from 'express';
 import busboy from 'connect-busboy';
 import { Server, Socket } from 'socket.io';
@@ -26,12 +27,21 @@ import form_parser from './src/middleware/form_parser';
 import chat_routes from './src/routes/chat_routes';
 import { socket_data } from './src/sockets/socket.js';
 
+// Configure global context to save the root of the project
+const root = path.join(__dirname, '..');
+declare global {
+    var ROOT: string
+}
+global.ROOT = root;
+
 // Initialize Database
 mongoose.connect(`mongodb://${config.DB_HOST}/${config.DB_ADDR}`);
 
 // Initialize web server and sockets
 const app = express();
-socket_data.io = new Server(http.createServer(app));
+const server = http.createServer(app);
+app.use(express.static(path.join(root, '/public')));
+socket_data.io = new Server(server);
 
 // Register middleware
 app.use(busboy({ immediate: true })); // Prereq for custom form parser middleware
@@ -42,7 +52,7 @@ app.use(debug_request); // Use debug middleware to print out request data as the
 app.use(chat_routes);
 
 // Start server and socket connection
-app.listen(config.PORT, () => {
+server.listen(config.PORT, () => {
     console.log(`Listening on port ${config.PORT}`);
 });
 socket_data.io.on('connection', connection_handler);

@@ -7,4 +7,8 @@ export default {
     PORT: 3000,
     DB_HOST: 'localhost',
     DB_ADDR: 'tempchan_db',
+
+    // List of boards supported by the server. Simply add or remove board names
+    // to change the number of boards supported
+    boards: [ 'int', 'g' ],
 };

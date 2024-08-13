@@ -15,10 +15,15 @@
 
 import { NextFunction, Request, Response } from "express";
 import { message_model } from "../models/message";
+import { chat_res } from "../models/chat_response";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     if (!req.body.board) {
-        return res.status(400).json({ msg: "Missing board" });
+        const response: chat_res = {
+            message: "missing_board",
+            data: null,
+        }
+        return res.status(400).json(response);
     }
     if (!req.body.data) {
         req.body.data = {}

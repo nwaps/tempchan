@@ -4,22 +4,23 @@
 
 import { Schema, model } from "mongoose"
 
-export interface idb_message {
+export interface db_message {
     board: string;
     name: string;
     body: string;
     chat: string;
     post_id: number;
     date: Date;
-    image: string;
-    image_filename: string;
-    image_filesize: string;
-    image_width: number;
-    image_height: number;
-    thumb: string;
+    image: string | null;
+    image_filename: string | null;
+    image_filesize: string | null;
+    image_width: number | null;
+    image_height: number | null;
+    thumb: string | null;
+    original_poster: boolean;
 }
 
-const message_schema = new Schema<idb_message>({
+const message_schema = new Schema<db_message>({
     board: { type: String, required: true },
     name: { type: String, required: true },
     body: { type: String, required: true },
@@ -32,6 +33,7 @@ const message_schema = new Schema<idb_message>({
     image_width: { type: Number, required: false },
     image_height: { type: Number, required: false },
     thumb: { type: String, required: false },
+    original_poster: { type: Boolean, required: true },
 });
 
-export const message_model = model<idb_message>('Message', message_schema);
+export const message_model = model<db_message>('Message', message_schema);

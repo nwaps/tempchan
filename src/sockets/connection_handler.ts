@@ -4,12 +4,14 @@
   for additional socket events, such as chat subscriptions, and unsubscriptions
 */
 
-import { Server, Socket } from "socket.io";
+import { Socket } from "socket.io";
+import { socket_data } from "./socket";
+import { sub_handler, unsub_handler } from "./subscription_handler";
 
 export default (socket: Socket) => {
-    socket.on('subscribe', (data) => {
-    });
+    socket_data.socket = socket;
 
-    socket.on('unsubscribe', (data) => {
-    });
+    // Connect the unsubscribe and subscribe events to their respective handlers
+    socket.on('subscribe', sub_handler);
+    socket.on('unsubscribe', unsub_handler);
 }

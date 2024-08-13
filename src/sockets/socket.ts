@@ -4,12 +4,14 @@
   server start up.
 */
 
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
 export interface s_data {
+    socket: Socket | null;
     io: Server | null;
 }
 
 export const socket_data : s_data = {
-    io: null
+    socket: null,
+    io: null,
 }

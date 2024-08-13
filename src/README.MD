@@ -1,0 +1,3 @@
+# /src
+
+This directory is the home for all server code in the project. API endpoints defined in src are responsible for the main logic of the application, as well as serving html pages to clients. Although tempchan consists of a single unified server, the code in this directory can be thought of as the "backend" of the application. The implementation of the "frontend" html pages are found in the [pages directory](./pages/). The location of the javascript, css and assets used to by these pages which are publically accessable to clients can be found in the [public directory](../public/).

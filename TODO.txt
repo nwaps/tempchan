@@ -30,3 +30,8 @@ Analysis of Kotchan:
 - (Long term goal) Database abstraction:
   - Provider (database specific) hooks up to database-independent workflow layer
   - Decouples database-specific logic from server logic, allows possibility to easily use other dbs in the future
+
+- Message failures:
+  - proxy
+  - session_expiry
+  - ban_violation
