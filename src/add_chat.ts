@@ -17,14 +17,16 @@ export default async (data: any) => {
         body: data.body,
         chat: data.chat,
         post_id: data.post_id,
-        image: null,
-        image_filename: null,
-        image_filesize: null,
-        image_width: null,
-        image_height: null,
-        thumb: null,
+        image: data.image ? data.image : null,
+        image_filename: data.image_filename ? data.image_filename : null,
+        image_filesize: data.image_filesize ? data.image_filesize : null,
+        image_width: data.image_width ? data.image_width : null,
+        image_height: data.image_height ? data.image_height : null,
+        thumb: data.thumb ? data.thumb : null,
         date: data.date,
         original_poster: data.original_poster,
+        ip: data.ip,
+        user_agent: data.user_agent,
     });
 
     await message.save();

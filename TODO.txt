@@ -35,3 +35,18 @@ Analysis of Kotchan:
   - proxy
   - session_expiry
   - ban_violation
+
+- Features that exist in kotchan but don't exist in present
+  - Restrictionless cookies
+  - Proxy blocking
+  - Proxy ip block exceptions
+
+- Admin commands (prefably not behind API):
+  - block proxy
+  - ban user
+  - unban user
+
+- Documentation:
+  - How to add assets (banners, stickers, etc)
+  - How to add blocked proxies
+  - Misc admin commands

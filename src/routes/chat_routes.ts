@@ -10,9 +10,17 @@ import emit_chat from '../sockets/emit_chat';
 import add_chat from '../add_chat';
 import { chat_res } from '../models/chat_response';
 import { db_message, message_model } from '../models/message';
+import orient_image from '../middleware/orient_image';
+import format_img from '../middleware/format_img';
+import generate_thumbnail from '../middleware/generate_thumbnail';
 const router = Router();
 
-router.post("/chat", format_chat_data, async (req, res) => {
+router.post("/chat",
+            format_chat_data,
+            orient_image,
+            format_img,
+            generate_thumbnail,
+            async (req, res) => {
     const response: chat_res = {
         message: "",
         data: null
@@ -70,6 +78,8 @@ router.get("/data/:board", async (req, res) => {
                 image_height: doc.image_height,
                 thumb: doc.thumb,
                 original_poster: doc.original_poster,
+                ip: doc.ip,
+                user_agent: doc.user_agent,
             };
     
             return ret;

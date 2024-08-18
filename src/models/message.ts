@@ -18,6 +18,8 @@ export interface db_message {
     image_height: number | null;
     thumb: string | null;
     original_poster: boolean;
+    ip: string;
+    user_agent: string;
 }
 
 const message_schema = new Schema<db_message>({
@@ -34,6 +36,8 @@ const message_schema = new Schema<db_message>({
     image_height: { type: Number, required: false },
     thumb: { type: String, required: false },
     original_poster: { type: Boolean, required: true },
+    ip: { type: String, required: true },
+    user_agent: { type: String, required: true },
 });
 
 export const message_model = model<db_message>('Message', message_schema);

@@ -26,6 +26,7 @@ import form_parser from './src/middleware/form_parser';
 // Import route endpoints
 import chat_routes from './src/routes/chat_routes';
 import { socket_data } from './src/sockets/socket.js';
+import ip_check from './src/middleware/ip_check.js';
 
 // Configure global context to save the root of the project
 const root = path.join(__dirname, '..');
@@ -43,8 +44,9 @@ const server = http.createServer(app);
 app.use(express.static(path.join(root, '/public')));
 socket_data.io = new Server(server);
 
-// Register middleware
-app.use(busboy({ immediate: true })); // Prereq for custom form parser middleware
+// Register universal middleware
+app.use(ip_check);
+app.use(busboy({ immediate: true, limits: { fileSize: config.FILESIZE_LIMIT} })); // Prereq for custom form parser middleware
 app.use(form_parser);
 app.use(debug_request); // Use debug middleware to print out request data as the server recieves requests
 
