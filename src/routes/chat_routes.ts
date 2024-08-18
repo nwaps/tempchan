@@ -37,6 +37,31 @@ router.post("/chat", format_chat_data, async (req, res) => {
     }
 });
 
+router.post("/chat/:board", format_chat_data, async (req, res) => {
+    const response: chat_res = {
+        message: "",
+        data: null
+    };
+    try {
+        // Add message to database
+        await add_chat(req.body.data);
+        
+        // Emit message to all concurrent clients
+        emit_chat(req.body.data.board, req.body.data);
+
+        // TODO: Place logic here to emit to other misc clients (discord webhook for example)
+
+        response.message = "success";
+        response.data = req.body.data;
+        res.status(200).json(response);
+    } catch(err) {
+        console.log(err);
+        response.message = "server_failure";
+        response.data = null;
+        res.status(500).json(response);
+    }
+});
+
 router.get('/', (req, res) => {
     res.redirect('/chat/home');
 });

@@ -18,7 +18,7 @@ import { message_model } from "../models/message";
 import { chat_res } from "../models/chat_response";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.board) {
+    if (!req.params.board) {
         const response: chat_res = {
             message: "missing_board",
             data: null,
@@ -34,7 +34,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     const most_recent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();
 
     req.body.data.post_id = most_recent ? most_recent.post_id + 1 : 0;
-    req.body.data.board = req.body.board;
+    req.body.data.board = req.params.board;
     req.body.data.chat = !req.body.chat || req.body.chat === undefined ? "General" : req.body.chat;
     req.body.data.name = !req.body.name || req.body.name === undefined ? "Anonymous" : req.body.name;
     req.body.data.body = req.body.body;
