@@ -29,7 +29,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
     // For every standard text field of the request body, simply add it to
     // req.body as a json member
-    const fields : any = {};
+    const fields: any = {};
     req.busboy.on('field', (name, value) => {
         fields[name] = value;
     })
@@ -42,7 +42,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     let thumb_path: string = '';
     let file_stream: fs.WriteStream;
     let file_promise: Promise<number | string>;
-    req.busboy.on('file', (field, file, info) => {
+    req.busboy.on('file', (field, file: NodeJS.ReadableStream, info) => {
         try {
             // Only allow 1 file upload per request
             if (!found_file && info.filename) {
@@ -53,7 +53,10 @@ export default (req: Request, res: Response, next: NextFunction) => {
                 file_stream = fs.createWriteStream(file_path);
 
                 // Write main file
-                file.pipe(file_stream);
+                if (file_stream) {
+                    file.pipe(file_stream as unknown as NodeJS.WritableStream);
+                }
+
                 file_promise = new Promise<number | string>((resolve, reject) => {
                     file.on('limit', () => {
                         reject('exceeded_max_filesize');
@@ -62,7 +65,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
                         file_stream?.end();
                     });
                     file_stream?.on('finish', () => {
-                        resolve(file_stream?.bytesWritten);
+                        resolve(file_stream?.bytesWritten || 0);
                     });
                     file_stream?.on('error', reject);
                 });

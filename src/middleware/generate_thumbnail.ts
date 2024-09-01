@@ -50,10 +50,18 @@ export default (req: Request, res: Response, next: NextFunction) => {
         var stderr = "";
         console.log(command);
         console.log(args);
-        var process = spawn(command, args);
-        if (category === "image") {
-            fs.createReadStream(data.image).on("error", function(e) {console.log(e);}).pipe(process.stdin.on("error", function(e) {console.log(e);}));
+        // var process = spawn(command, args);
+        // if (category === "image") {
+        //     fs.createReadStream(data.image).on("error", function(e) {console.log(e);}).pipe(process.stdin.on("error", function(e) {console.log(e);}));
+        // }
+
+        if (category === 'image') {
+            const readStream = fs.createReadStream(data.image);
+            readStream.on('error', (e) => console.log(e));
+            process.stdin.on('error', (e) => console.log(e));
+            readStream.pipe(process.stdin as NodeJS.WritableStream);
         }
+
         process.stdout.on("error", function(e) {console.log(e);}).pipe(fs.createWriteStream(data.thumb));
         process.stderr.on("error", function(e) {console.log(e);}).on("data", function(data) {stderr += data;});
         process.on("close", function(code) {

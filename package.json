@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "connect-busboy": "^1.0.0",
+    "discord.js": "^14.15.3",
     "express": "^4.19.2",
     "mongoose": "^8.5.2",
     "socket.io": "^4.7.5"
