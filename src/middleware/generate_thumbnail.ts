@@ -59,10 +59,10 @@ export default (req: Request, res: Response, next: NextFunction) => {
             const readStream = fs.createReadStream(data.image);
             readStream.on('error', (e) => console.log(e));
             process.stdin.on('error', (e) => console.log(e));
-            readStream.pipe(process.stdin as NodeJS.WritableStream);
+            readStream.pipe(process.stdin as unknown as NodeJS.WritableStream);
         }
 
-        process.stdout.on("error", function(e) {console.log(e);}).pipe(fs.createWriteStream(data.thumb));
+        process.stdout.on("error", function(e) {console.log(e);}).pipe(fs.createWriteStream(data.thumb) as unknown as NodeJS.WritableStream);
         process.stderr.on("error", function(e) {console.log(e);}).on("data", function(data) {stderr += data;});
         process.on("close", function(code) {
             if (code !== 0) {
