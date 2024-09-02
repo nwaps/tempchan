@@ -1,0 +1,3 @@
+# /public
+
+This directory hosts the frontend css, assets and javascript which is served to clients connected via a web browser. The responsibility of these pages are to provide the logic and flavor for the main UI of the application, which the client uses to subsequently send requests to the "backend" logic, such as creating or reading chat messages. For the implementation of the "backend" logic, view the [src directory](../src/). To view the html pages which are served by the backend, view the [pages directory](../src/pages/).
