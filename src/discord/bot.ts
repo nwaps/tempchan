@@ -4,7 +4,6 @@ import fs from 'fs';
 import config from '../../config';
 import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
-// import { Command } from './types/command';
 
 export interface Command {
   execute(client: Client, interaction: Interaction): void;

@@ -28,10 +28,8 @@ import chat_routes from './src/routes/chat_routes';
 import { socket_data } from './src/sockets/socket.js';
 import ip_check from './src/middleware/ip_check.js';
 
-
 // run the discord bot on startup
 import './src/discord/bot.js';
-
 
 // Configure global context to save the root of the project
 const root = path.join(__dirname, '..');
