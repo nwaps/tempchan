@@ -15,6 +15,7 @@ export default {
     DISCORD_TOKEN: "",
     CLIENTID: "",
     GUILDID: "",
+    WEBHOOK: "",
 
 
     // List of boards supported by the server. Add or remove board names
