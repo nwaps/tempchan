@@ -25,7 +25,7 @@ export interface db_message {
 const message_schema = new Schema<db_message>({
     board: { type: String, required: true },
     name: { type: String, required: true },
-    body: { type: String, required: true },
+    body: { type: String, required: false },
     chat: { type: String, required: true},
     post_id: { type: Number, required: true, unique: true },
     date: { type: Date, required: true, default: Date.now },
