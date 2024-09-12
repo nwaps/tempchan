@@ -1,4 +1,4 @@
-import { Client, CommandInteractionOptionResolver, Events, Message } from 'discord.js';
+import { ApplicationCommandNumericOptionMinMaxValueMixin, Client, CommandInteractionOptionResolver, Events, Message } from 'discord.js';
 import emit_chat from '../../sockets/emit_chat';
 import { message_model } from "../../models/message"
 
@@ -9,8 +9,11 @@ export default {
     // TODO send images from discord to livechan
 
     if(message.channelId !== "907173398302564393") return;
+    
+    const mostRecent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();
+
     const message_data = new message_model ({
-      post_id: Number(message.id),
+      post_id: mostRecent ? mostRecent.post_id + 1 : 0,
       board: 'int',
       chat: 'General', 
       name: message.author.username,
