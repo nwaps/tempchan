@@ -1,15 +1,15 @@
 import { Client, CommandInteractionOptionResolver, Events, Message } from 'discord.js';
 import emit_chat from '../../sockets/emit_chat';
+import { message_model } from "../../models/message"
 
 export default {
   name: Events.MessageCreate,
-  execute(client: Client, message: Message) {
-    console.log(message.author)
+  async execute(client: Client, message: Message) {
     if(message.author.bot) return;
-    // TODO format message data for middleware and db
+    // TODO send images from discord to livechan
 
-    if(message.channelId !== "1280163414638858385") return;
-    const data = {
+    if(message.channelId !== "907173398302564393") return;
+    const message_data = new message_model ({
       post_id: Number(message.id),
       board: 'int',
       chat: 'General', 
@@ -18,11 +18,13 @@ export default {
       date: Date.now(),
       ip: '255.255.255.255',
       user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-      orignal_poster: true,
+      original_poster: false,
       from_discord: true
-    };
+    });
 
-    emit_chat("int", data);
+
+    await message_data.save();
+    emit_chat("int", message_data);
   },
 };
 
