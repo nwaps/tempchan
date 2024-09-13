@@ -3,6 +3,7 @@ import emit_chat from '../../sockets/emit_chat';
 import { message_model } from "../../models/message"
 import { process_file } from '../../middleware/download_file';
 import path from 'path';
+import config from '../../../config';
 
 export default {
     name: Events.MessageCreate,
@@ -10,7 +11,7 @@ export default {
         if (message.author.bot) return;
         // TODO store settings in the database
 
-        if (message.channelId !== "907173398302564393") return;
+        if (message.channelId !== config.CHANNELID) return;
         var message_object = {}
 
         const mostRecent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();
