@@ -12,14 +12,56 @@ function blobToFile(blob, filename){
     return new File([blob], filename, {type: blob.type, lastModified: Date.now()});
 }
 
+// function dataURItoBlob(dataURI) {
+//     var binary = atob(dataURI.split(',')[1]);
+//     var array = [];
+//     for(var i = 0; i < binary.length; i++) {
+//         array.push(binary.charCodeAt(i));
+//     }
+//     return new Blob([new Uint8Array(array)], {type: 'image/'+localStorage.image_paste_format});
+// }
+
 function dataURItoBlob(dataURI) {
-    var binary = atob(dataURI.split(',')[1]);
-    var array = [];
-    for(var i = 0; i < binary.length; i++) {
-        array.push(binary.charCodeAt(i));
+    var splitDataURI = dataURI.split(',');
+    var byteString = atob(splitDataURI[1]);
+    var mimeString = splitDataURI[0].split(':')[1].split(';')[0];
+    
+    var arrayBuffer = new ArrayBuffer(byteString.length);
+    var uint8Array = new Uint8Array(arrayBuffer);
+    
+    for (var i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
     }
-    return new Blob([new Uint8Array(array)], {type: 'image/'+localStorage.image_paste_format});
+
+    return new Blob([uint8Array], { type: mimeString });
 }
+
+
+
+// function prepare_blob(blob, callback) {
+//     var canvas = document.createElement("canvas");
+//     var context = canvas.getContext("2d"); 
+//     var image = new Image();
+
+//     var reader = new FileReader();
+//     reader.readAsDataURL(blob);
+//     reader.onload = function(evt){
+//         if( evt.target.readyState == FileReader.DONE) {
+//             image.src = evt.target.result;
+//             image.addEventListener("load", function(evt){
+//                 canvas.width = image.width;
+//                 canvas.height = image.height;
+
+//                 context.drawImage(image, 0, 0);
+
+//                 var pre_blob = dataURItoBlob(canvas.toDataURL("image/"+localStorage.image_paste_format, parseFloat(localStorage.image_paste_quality)));
+//                 var file = blobToFile(pre_blob, 'image.'+localStorage.image_paste_format);
+//                 //console.log('file blob: ', file);
+//                 callback(file);
+//             });
+//         }
+//     }
+// }
 
 
 function prepare_blob(blob, callback) {
@@ -30,22 +72,26 @@ function prepare_blob(blob, callback) {
     var reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onload = function(evt){
-        if( evt.target.readyState == FileReader.DONE) {
+        if (evt.target.readyState == FileReader.DONE) {
             image.src = evt.target.result;
             image.addEventListener("load", function(evt){
                 canvas.width = image.width;
                 canvas.height = image.height;
-
                 context.drawImage(image, 0, 0);
 
-                var pre_blob = dataURItoBlob(canvas.toDataURL("image/"+localStorage.image_paste_format, parseFloat(localStorage.image_paste_quality)));
-                var file = blobToFile(pre_blob, 'image.'+localStorage.image_paste_format);
-                //console.log('file blob: ', file);
+                // Use the original blob type or fallback to 'image/jpeg' if type is unknown
+                var mimeType = blob.type || 'image/jpeg'; 
+                var dataURL = canvas.toDataURL(mimeType, parseFloat(localStorage.image_paste_quality) || 1.0);
+                
+                var pre_blob = dataURItoBlob(dataURL);
+                var file = blobToFile(pre_blob, 'image.' + mimeType.split('/')[1]);
+                
                 callback(file);
             });
         }
     }
 }
+
 
 function onpaste_handler(event){
 
@@ -70,13 +116,16 @@ function onpaste_handler(event){
     localStorage.cool_down_timer = cool_down_timer;*/
 }
 
+
+
 function send_blob(blob) {
     var fd = new FormData();
 //console.log('out blob: ', blob);
     fd.append('image', blob);
     fd.append('name', $('#name')[0].value);
     fd.append('convo', $('#convo')[0].value);
-    fd.append('body', $('#body')[0].value);
+    // fd.append('body', $('#body')[0].value);
+    fd.append('board', $('#board_select').val());
     $('#body')[0].value='';
     $.ajax({
         url: $('#comment-form')[0].action,
