@@ -124,7 +124,7 @@ function send_blob(blob) {
     fd.append('image', blob);
     fd.append('name', $('#name')[0].value);
     fd.append('convo', $('#convo')[0].value);
-    // fd.append('body', $('#body')[0].value);
+    fd.append('body', $('#body')[0].value);
     fd.append('board', $('#board_select').val());
     $('#body')[0].value='';
     $.ajax({
