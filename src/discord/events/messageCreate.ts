@@ -1,45 +1,55 @@
-import { ApplicationCommandNumericOptionMinMaxValueMixin, Client, CommandInteractionOptionResolver, Events, Message } from 'discord.js';
+import { ApplicationCommandNumericOptionMinMaxValueMixin, Client, CommandInteractionOptionResolver, Events, Message, basename } from 'discord.js';
 import emit_chat from '../../sockets/emit_chat';
 import { message_model } from "../../models/message"
+import { process_file } from '../../middleware/download_file';
+import path from 'path';
 
 export default {
-  name: Events.MessageCreate,
-  async execute(client: Client, message: Message) {
-    if(message.author.bot) return;
-    // TODO send images from discord to livechan
+    name: Events.MessageCreate,
+    async execute(client: Client, message: Message) {
+        if (message.author.bot) return;
+        // TODO store settings in the database
 
-    if(message.channelId !== "907173398302564393") return;
-    
-    const mostRecent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();
+        if (message.channelId !== "907173398302564393") return;
+        var message_object = {}
 
-    const message_data = new message_model ({
-      post_id: mostRecent ? mostRecent.post_id + 1 : 0,
-      board: 'int',
-      chat: 'General', 
-      name: message.author.username,
-      body: message.content,
-      date: Date.now(),
-      ip: '255.255.255.255',
-      user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-      original_poster: false,
-      from_discord: true
-    });
+        const mostRecent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();
+
+        message_object = {
+            post_id: mostRecent ? mostRecent.post_id + 1 : 0,
+            board: 'int',
+            chat: 'General',
+            name: message.author.username,
+            body: message.content,
+            date: Date.now(),
+            ip: '255.255.255.255',
+            user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            original_poster: false,
+            from_discord: true,
+        }
+
+        if (message.attachments.size > 0) {
+            const attachment = message.attachments.first();
+            const file_url = attachment?.url;
+            if (file_url) {
+                const image_meta = await process_file(file_url)
+                console.log(image_meta)
+                message_object = {
+                    ...message_object,
+                    image: image_meta.file_path,
+                    image_width: image_meta.img_metadata.image_width,
+                    image_height: image_meta.img_metadata.image_height,
+                    image_filename: basename(attachment?.url),
+                    image_filesize: attachment.size
+                }
+            }
+        }
+
+        const message_data = new message_model(message_object);
 
 
-    await message_data.save();
-    emit_chat("int", message_data);
-  },
+        await message_data.save();
+        emit_chat("int", message_data);
+    },
 };
 
-
-// {
-//   post_id: 16,
-//   board: 'int',
-//   chat: 'test',
-//   name: '123',
-//   body: 'asdfasdf',
-//   date: 1725282704589,
-//   ip: '255.255.255.255',
-//   user_agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-//   original_poster: true
-// }
