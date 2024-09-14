@@ -25,7 +25,7 @@ const format_names: any = {
 
 // download the file from discord to upload to our server because we like to store things :)
 const download_file = async (url: string): Promise<string> => {
-    const output_dir = path.join(__dirname, '../../../public/tmp/uploads');
+    const output_dir = path.join(__dirname, '../../../../public/tmp/uploads');
     const filename = unique_filename(basename(url));
     const file_path = path.join(output_dir, filename);
     const writer = fs.createWriteStream(file_path);
@@ -211,7 +211,7 @@ export const format_img = async (file_path: string): Promise<{ metadata?: any; e
 
 const generate_thumbnail = async (metadata: any, file_path: string): Promise<void> => {
     // Calculate width and height for thumbnail
-    const output_dir = path.join(__dirname, '../../../public/tmp/thumb', basename(file_path))
+    const output_dir = path.join(__dirname, '../../../../public/tmp/thumb', basename(file_path))
     const scale = Math.min(250 / metadata.image_width, 100 / metadata.image_height, 1);
     const thumb_width = Math.round(scale * metadata.image_width);
     const thumb_height = Math.round(scale * metadata.image_height);
