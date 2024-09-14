@@ -1,7 +1,7 @@
-import { ApplicationCommandNumericOptionMinMaxValueMixin, Client, CommandInteractionOptionResolver, Events, Message, basename } from 'discord.js';
+import { Client, Events, Message, basename } from 'discord.js';
 import emit_chat from '../../sockets/emit_chat';
 import { message_model } from "../../models/message"
-import { process_file } from '../../middleware/download_file';
+import { process_file } from '../util/download_file';
 import path from 'path';
 import config from '../../../config';
 
