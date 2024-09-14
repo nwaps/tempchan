@@ -1,10 +1,10 @@
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
-import config from '../../config';
+import config from '../../../config';
 import { spawn } from 'child_process';
-import { get_extension } from './form_parser';
-import { categorize } from './format_img';
+import { get_extension } from '../../middleware/form_parser';
+import { categorize } from '../../middleware/format_img';
 import { basename } from 'discord.js';
 
 const format_names: any = {
