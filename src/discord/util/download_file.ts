@@ -211,13 +211,14 @@ export const format_img = async (file_path: string): Promise<{ metadata?: any; e
 
 const generate_thumbnail = async (metadata: any, file_path: string): Promise<void> => {
     // Calculate width and height for thumbnail
-    const output_dir = path.join(__dirname, '../../../../public/tmp/thumb', basename(file_path))
     const scale = Math.min(250 / metadata.image_width, 100 / metadata.image_height, 1);
     const thumb_width = Math.round(scale * metadata.image_width);
     const thumb_height = Math.round(scale * metadata.image_height);
 
     // Determine thumbnail path and extension
     const thumb_extension = metadata.image_transparent ? 'png' : 'jpg';
+    const file_name = basename(file_path).replace(/\.[^/.]+$/, "")
+    const output_dir = path.join(__dirname, '../../../../public/tmp/thumb', `${file_name}.${thumb_extension}`)
     // console.log(path.dirname(metadata.image))
     // const thumbPath = path.join(path.dirname(metadata.image), `thumbnail_${path.basename(metadata.image, path.extname(metadata.image))}.${thumb_extension}`);
 
