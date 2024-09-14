@@ -1,9 +1,10 @@
-import { Client, Events, Message, basename } from 'discord.js';
+import { Client, CommandInteractionOptionResolver, Events, Message, basename } from 'discord.js';
 import emit_chat from '../../sockets/emit_chat';
 import { message_model } from "../../models/message"
 import { process_file } from '../util/download_file';
 import path from 'path';
 import config from '../../../config';
+import { get_settings } from '../util/settings';
 
 export default {
     name: Events.MessageCreate,
@@ -11,7 +12,8 @@ export default {
         if (message.author.bot) return;
         // TODO store settings in the database
 
-        if (message.channelId !== config.CHANNELID) return;
+        const settings = await get_settings(message.guildId) // should probably cache this on the client
+        if (message.channelId !== settings.channels.livechan) return;
         var message_object = {}
 
         const mostRecent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();
@@ -34,7 +36,6 @@ export default {
             const file_url = attachment?.url;
             if (file_url) {
                 const image_meta = await process_file(file_url)
-                console.log(image_meta)
                 message_object = {
                     ...message_object,
                     image: image_meta.file_path,
