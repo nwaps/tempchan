@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import config from '../../../config';
 import { spawn } from 'child_process';
-import { get_extension } from '../../middleware/form_parser';
+import { get_extension, unique_filename } from '../../middleware/form_parser';
 import { categorize } from '../../middleware/format_img';
 import { basename } from 'discord.js';
 
@@ -23,17 +23,10 @@ const format_names: any = {
     'mov': 'mov'
 };
 
-// custom unique filename function because discord sends a bunch of shite after the  extension (.png?extfuh3iunv0a9djsf=a-sd=f-asovj-a0jfv)
-const unique_filename = (filename: string): string => {
-    const base_file = filename.split('?')[0];
-    const ext = base_file.slice(filename.lastIndexOf("."));
-    return Date.now() + '-' + Math.round(Math.random() * 1E9) + ext;
-};
-
 // download the file from discord to upload to our server because we like to store things :)
 const download_file = async (url: string): Promise<string> => {
     const output_dir = path.join(__dirname, '../../../public/tmp/uploads');
-    const filename = unique_filename(path.basename(url));
+    const filename = unique_filename(basename(url));
     const file_path = path.join(output_dir, filename);
     const writer = fs.createWriteStream(file_path);
 

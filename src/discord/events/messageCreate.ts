@@ -41,7 +41,7 @@ export default {
                     image_width: image_meta.img_metadata.image_width,
                     image_height: image_meta.img_metadata.image_height,
                     image_filename: basename(attachment?.url),
-                    image_filesize: attachment.size
+                    image_filesize: attachment.size // this is wrong but i don't want to be right
                 }
             }
         }

@@ -123,7 +123,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const unique_filename = (filename: string) => {
+export const unique_filename = (filename: string) => {
     const ext = filename.slice(filename.lastIndexOf("."))
     return Date.now() + '-' + Math.round(Math.random() * 1E9) + ext;
 }
