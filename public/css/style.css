@@ -609,3 +609,42 @@ pre {
 	border-left: 4px solid rgb(221, 0, 0);
         background-color: rgb(179, 185, 218);
 }
+
+
+
+
+/* CHATBOT REFRESH */
+#create {
+    width: 100%;
+    height: 169px;
+    box-sizing: border-box; /* Ensures padding and borders are included in the height/width */
+    overflow: hidden; /* Prevent overflow of inner elements */
+}
+
+#comment-form {
+    display: flex; /* To align items neatly within the container */
+    flex-wrap: wrap; /* Allow items to wrap to new lines if needed */
+    justify-content: space-between; /* Adjust spacing between items */
+    align-items: left; /* Vertically center items */
+    width: 100%;
+    height: 100%;
+    padding: 5px; /* Add padding to ensure a neat appearance */
+    box-sizing: border-box; /* Include padding and borders in the width and height calculations */
+}
+
+#comment-form input,
+#comment-form textarea {
+    max-height: calc(100% - 20px); /* Adjust height dynamically */
+    box-sizing: border-box;
+}
+
+#comment-form .name,
+#comment-form .convo {
+    width: 48%; /* Ensure the inputs take up less space to fit */
+}
+
+#comment-form .comment {
+    width: 100%; /* Textarea spans full width */
+    flex-grow: 1; /* Grow to occupy remaining space */
+    resize: none; /* Disable resizing */
+}
