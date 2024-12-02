@@ -31,7 +31,7 @@ export default (board: string, data: any) => {
                         }
 
                         if (data.image) {
-                            options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](<http://livechan.goodhew.lol/chat/${data.board})>`
+                            options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](<http://livechan.goodhew.lol/chat/${data.board}>)`
                             // options.files = [{
                                 // attachment: data.image
                             // }];
