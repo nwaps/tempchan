@@ -42,4 +42,22 @@ const message_schema = new Schema<db_message>({
     from_discord: {type: String, required: false},
 });
 
+
+message_schema.pre('save', async function(next) {
+  const maxDocuments = 30;
+
+  // Check if the collection exceeds the maximum allowed documents
+  const count = await message_model.countDocuments();
+  if (count >= maxDocuments) {
+    // Delete the oldest document if the limit is exceeded
+    const oldestDoc = await message_model.findOne().sort({ createdAt: 1 }).exec();
+    if (oldestDoc) {
+      await message_model.deleteOne({_id: oldestDoc._id})
+      console.log('Oldest document removed:', oldestDoc);
+    }
+  }
+
+  next();
+});
+
 export const message_model = model<db_message>('Message', message_schema);
