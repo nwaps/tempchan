@@ -224,7 +224,7 @@ async function set_settings(guildId: string | null, new_settings: complex_settin
     const settings = await get_settings(guildId)
 
     new_settings = merge(settings, new_settings)
-    console.log(new_settings)
+    // console.log(new_settings)
     await settings_model.findOneAndUpdate(
         { guildId },
         { settings: new_settings },
