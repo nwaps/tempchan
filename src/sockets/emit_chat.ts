@@ -11,13 +11,14 @@ import { get_all_settings } from "../discord/util/settings";
 export default (board: string, data: any) => {
     socket_data.io?.sockets.in(board).emit('chat', JSON.stringify(data));
 
-    if (data.from_discord) return
-    console.log(data.chat)
+    // if (!data.from_discord) return
+    // console.log(data.chat)
 
     if (data.chat == "General") { // global chat, send to all
         get_all_settings()
             .then((settings) => {
                 settings.forEach(set => {
+                    if (set.guildId == data.from_discord) return
                     const webhookurl = set.settings.webhooks.url.toString()
                     // console.log(webhookurl)
                     const webhook = new WebhookClient({ url: webhookurl })

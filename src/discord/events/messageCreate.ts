@@ -10,6 +10,7 @@ export default {
     name: Events.MessageCreate,
     async execute(client: Client, message: Message) {
         if (message.author.bot) return;
+        if (!message.guild) return
         // TODO store settings in the database
 
         const settings = await get_settings(message.guildId) // should probably cache this on the client
@@ -22,13 +23,13 @@ export default {
             post_id: mostRecent ? mostRecent.post_id + 1 : 0,
             board: 'int',
             chat: 'General',
-            name: message.author.username,
+            name: message?.member?.nickname || message.author.username,
             body: message.content,
             date: Date.now(),
             ip: '255.255.255.255',
             user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             original_poster: false,
-            from_discord: true,
+            from_discord: message.guild.id,
         }
 
         if (message.attachments.size > 0) {

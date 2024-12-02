@@ -51,7 +51,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
         req.body.data.date = Date.now();
         req.body.data.ip = get_user_ip(req);
         req.body.data.user_agent = req.headers['user-agent'];
-        req.body.data.from_discord = false;
+        // req.body.data.from_discord = null;
         if (req.body.file) {
             req.body.data.image = req.body.file.file_path;
             req.body.data.image_filename = req.body.file.orig_filename;
