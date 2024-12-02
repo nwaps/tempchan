@@ -1,10 +1,11 @@
-import { Client, Collection, GatewayIntentBits, Partials, Interaction} from 'discord.js';
+import { Client, Collection, GatewayIntentBits, Partials, Interaction, SlashCommandBuilder} from 'discord.js';
 import config from '../../config';
 import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
 
 
 export interface Command {
+    data(command: SlashCommandBuilder): void;
     execute(client: Client, interaction: Interaction): void;
     autocomplete(client: Client, interaction: Interaction): void;
 }
@@ -55,6 +56,9 @@ loadEvents(client);
 
 // Login to Discord
 client.login(config.DISCORD_TOKEN);
+
+
+export { client };
 
 
 
