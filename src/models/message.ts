@@ -21,6 +21,7 @@ export interface db_message {
     ip: string;
     user_agent: string;
     from_discord: boolean;
+    guild_id: string;
 }
 
 const message_schema = new Schema<db_message>({
@@ -39,7 +40,8 @@ const message_schema = new Schema<db_message>({
     original_poster: { type: Boolean, required: true },
     ip: { type: String, required: true },
     user_agent: { type: String, required: true },
-    from_discord: {type: Boolean, required: false}
+    from_discord: {type: Boolean, required: false},
+    guild_id: { type: String, required: false}
 });
 
 export const message_model = model<db_message>('Message', message_schema);

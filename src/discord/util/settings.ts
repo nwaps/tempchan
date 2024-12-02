@@ -1,19 +1,20 @@
 import settings_model, { complex_setting } from "../models/settings";
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Interaction, Message, ButtonInteraction, BaseInteraction, BaseMessageOptions, MessageInteraction } from "discord.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Interaction, Message, ButtonInteraction, BaseInteraction, BaseMessageOptions, MessageInteraction, CommandInteractionOptionResolver } from "discord.js";
 import { merge } from 'lodash'; // npm install --save-dev @types/lodash
 
 const ITEMS_PER_PAGE = 5;
 
 const defaultSettings = {
     roles: {
-        admin: '914823944941473822',
+        admin: null,
         member: null,
     },
     channels: {
-        livechan: '906056146341748737',
+        livechan: null,
+        url: null,
     },
     random: {
-        item: 'test',
+        item: null,
     }
 };
 
@@ -210,7 +211,17 @@ async function get_settings(guildId: string | null) {
 }
 
 
+async function get_all_settings() {
+    const allSettings = await settings_model.find({});
+    return allSettings;
+}
+
+
 async function set_settings(guildId: string | null, new_settings: complex_setting) {
+    const settings = await get_settings(guildId)
+
+    new_settings = merge(settings, new_settings)
+    console.log(new_settings)
     await settings_model.findOneAndUpdate(
         { guildId },
         { settings: new_settings },
@@ -218,4 +229,4 @@ async function set_settings(guildId: string | null, new_settings: complex_settin
     );
 }
 
-export { set_settings, get_settings, build_paged_embed, flatten_settings, unflattened_settings };
+export { set_settings, get_settings, get_all_settings, build_paged_embed, flatten_settings, unflattened_settings };

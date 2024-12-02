@@ -22,15 +22,15 @@ export async function loadCommands(client: Client) {
     }
   }
 
-  const clientId = config.CLIENTID;
-  const guildId =  config.GUILDID;
-  const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN);
+  // const clientId = config.CLIENTID;
+  // const guildId =  config.GUILDID;
+  // const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN);
 
-  try {
-    console.log(`Started refreshing ${commandArray.length} application (/) commands.`);
-    const data: any = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commandArray });
-    console.log(`Successfully reloaded ${data.length} application (/) commands to ${guildId}.`);
-  } catch (error) {
-    console.error('Error while registering commands:', error);
-  }
+  // try {
+  //   console.log(`Started refreshing ${commandArray.length} application (/) commands.`);
+  //   const data: any = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commandArray });
+  //   console.log(`Successfully reloaded ${data.length} application (/) commands to ${guildId}.`);
+  // } catch (error) {
+  //   console.error('Error while registering commands:', error);
+  // }
 }

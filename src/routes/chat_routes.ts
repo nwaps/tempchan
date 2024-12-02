@@ -81,6 +81,7 @@ router.get("/data/:board", async (req, res) => {
                 ip: doc.ip,
                 user_agent: doc.user_agent,
                 from_discord: doc.from_discord,
+                guild_id: doc.guild_id,
             };
     
             return ret;

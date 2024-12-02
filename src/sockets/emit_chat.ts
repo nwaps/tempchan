@@ -6,35 +6,47 @@
 import { socket_data } from "./socket";
 import config from "../../config";
 import { WebhookClient, WebhookMessageCreateOptions } from "discord.js";
+import { get_all_settings } from "../discord/util/settings";
 
 export default (board: string, data: any) => {
     socket_data.io?.sockets.in(board).emit('chat', JSON.stringify(data));
 
-    if(data.from_discord) return
-    
-    const webhook = new WebhookClient({url: config.WEBHOOK})
+    if (data.from_discord) return
+
+    get_all_settings()
+        .then((settings) => {
+            settings.forEach(set => {
+                const webhookurl = set.settings.channels.url.toString()
+                console.log(webhookurl)
+                const webhook = new WebhookClient({ url: webhookurl })
+                // console.log(set.settings.webhook)
+
+                webhook.edit({
+                    name: data.name,
+                    avatar: 'https://litterbox.catbox.moe/resources/qts/1458602218407.png',
+                }).then(() => {
+                    // Create an object for the webhook message options
+                    const options: WebhookMessageCreateOptions = {};
+
+                    if (data.body !== undefined) {
+                        options.content = data.body;
+                    }
+
+                    if (data.image) {
+                        // options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](http://livechan.goodhew.lol:3000/chat/${data.board})`
+                        options.files = [{
+                            attachment: data.image
+                        }];
+                    }
+
+                    // Send the webhook message
+                    webhook.send(options);
+                }).catch(console.error);
+            })
+        })
 
 
-    webhook.edit({
-      name: data.name,
-      avatar: 'https://litterbox.catbox.moe/resources/qts/1458602218407.png',
-    }).then(() => {
-      // Create an object for the webhook message options
-      const options: WebhookMessageCreateOptions = {};
-    
-      if (data.body !== undefined) {
-        options.content = data.body;
-      }
-    
-      if (data.image) {
-        // options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](http://livechan.goodhew.lol:3000/chat/${data.board})`
-        options.files = [{
-          attachment: data.image
-        }];
-      }
-    
-      // Send the webhook message
-      webhook.send(options);
-    }).catch(console.error);
-    
+
+
+
 };
