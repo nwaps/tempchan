@@ -62,7 +62,7 @@ router.get("/data/:board", async (req, res) => {
         data: null
     };
     try {
-        const message_response = await message_model.find({ board: req.params.board }, {}, { sort: { post_id: -1 }});
+        const message_response = await message_model.find({ board: req.params.board }, {}, { sort: { post_id: -1 }}).limit(30);
         const messages: db_message[] = message_response.map((doc) => {
             const ret: db_message = {
                 board: doc.board,
