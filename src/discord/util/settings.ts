@@ -11,10 +11,9 @@ const defaultSettings = {
     },
     channels: {
         livechan: null,
-        url: null,
     },
-    random: {
-        item: null,
+    webhooks: {
+        url: null,
     }
 };
 
@@ -86,6 +85,10 @@ function create_embed_for_page(settings: Array<{ key: string; value: any }>, pag
             } else if (key === 'channels') {
                 displayValue = Object.entries(value)
                     .map(([subKey, subValue]) => subValue ? `${subKey} = <#${subValue}>` : `${subKey} = None`)
+                    .join('\n');
+            }  else if (key === 'webhooks') {
+                displayValue = Object.entries(value)
+                    .map(([subKey, subValue]) => subValue ? `${subKey} = Hidden` : `${subKey} = None`)
                     .join('\n');
             } else {
                 displayValue = Object.entries(value)

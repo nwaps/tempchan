@@ -20,7 +20,7 @@ export default {
 
         let webhook = webhooks.first()
 
-        await set_settings(interaction.guildId, { channels: { livechan: interaction.channel.id, url: webhook.url} })
+        await set_settings(interaction.guildId, { channels: { livechan: interaction.channel.id}, webhooks: { url: webhook.url} })
         // await set_settings(interaction.guildId )
 
 

@@ -16,8 +16,8 @@ export default (board: string, data: any) => {
     get_all_settings()
         .then((settings) => {
             settings.forEach(set => {
-                const webhookurl = set.settings.channels.url.toString()
-                console.log(webhookurl)
+                const webhookurl = set.settings.webhooks.url.toString()
+                // console.log(webhookurl)
                 const webhook = new WebhookClient({ url: webhookurl })
                 // console.log(set.settings.webhook)
 
