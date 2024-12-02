@@ -1,6 +1,7 @@
 import { Client, AutocompleteInteraction, CommandInteraction, Webhook, CommandInteractionOptionResolver } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { get_settings, set_settings, unflattened_settings } from '../util/settings';
+import messageCreate from '../events/messageCreate';
 
 export default {
     data: new SlashCommandBuilder()
@@ -19,13 +20,11 @@ export default {
         }
 
         let webhook = webhooks.first()
+        console.log(interaction.guild.iconURL())
 
-        await set_settings(interaction.guildId, { channels: { livechan: interaction.channel.id}, webhooks: { url: webhook.url} })
-        // await set_settings(interaction.guildId )
-
+        await set_settings(interaction.guildId, { channels: { livechan: interaction.channel.id }, webhooks: { url: webhook.url, } })
 
         const settings = await get_settings(interaction.guildId) // should probably cache this on the client
-        // console.log(settings.channels.webhook)
 
         // Respond with the selected option
         await interaction.reply(`Channel ${interaction.channel.id} to livechan`);
