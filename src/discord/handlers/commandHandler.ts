@@ -2,6 +2,7 @@ import { Client, REST, Routes, Collection } from 'discord.js';
 import path from 'path';
 import fs from 'fs';
 import config from '../../../config';
+import os from 'os';
 
 export async function loadCommands(client: Client) {
   const commandsPath = path.join(__dirname, '../commands');
@@ -22,15 +23,27 @@ export async function loadCommands(client: Client) {
     }
   }
 
-  // const clientId = config.CLIENTID;
-  // const guildId =  config.GUILDID;
-  // const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN);
+  const clientId = config.CLIENTID;
+  const devGuild = "1312736738044547102";
+  const rest = new REST().setToken(config.DISCORD_TOKEN);
+  try {
+    console.log(`Started refreshing ${commandArray.length} application (/) commands.`);
 
-  // try {
-  //   console.log(`Started refreshing ${commandArray.length} application (/) commands.`);
-  //   const data: any = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commandArray });
-  //   console.log(`Successfully reloaded ${data.length} application (/) commands to ${guildId}.`);
-  // } catch (error) {
-  //   console.error('Error while registering commands:', error);
-  // }
+    // The put method is used to fully refresh all commands in the guild with the current set
+    // const data = await rest.put(Routes.applicationGuildCommands(config.clientId, "885480544417222657"), { body: commands });
+    const route = os.hostname() === 'livechan'
+      ? Routes.applicationGuildCommands(clientId, devGuild)
+      : Routes.applicationCommands(clientId);
+    try {
+      const data: any = await rest.put(route, { body: commandArray });
+      console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+    } catch (error) {
+      console.log("Failed to deploy commands")
+    }
+    // console.log(data)
+
+  } catch (error) {
+    // And of course, make sure you catch and log any errors!
+    console.error(error);
+  }
 }
