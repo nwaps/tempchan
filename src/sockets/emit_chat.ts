@@ -14,8 +14,8 @@ export default (board: string, data: any) => {
     if (data.chat == "General") { // global chat, send to all
         get_all_settings()
             .then((settings) => {
-                console.log(data.discord_avatar)
                 settings.forEach(set => {
+                    if(set.settings.channels.livechan == "" || set.settings.channels.livechan == null) return
                     if (set.guildId == data.from_discord) return
                     const webhookurl = set.settings.webhooks.url.toString()
                     const webhook = new WebhookClient({ url: webhookurl })

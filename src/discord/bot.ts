@@ -1,10 +1,12 @@
-import { Client, Collection, GatewayIntentBits, Partials, Interaction, SlashCommandBuilder} from 'discord.js';
+import { Client, Collection, GatewayIntentBits, Partials, Interaction, SlashCommandBuilder } from 'discord.js';
 import config from '../../config';
 import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
+import { loadComponents } from './handlers/componentHandler';
 
 
 export interface Command {
+    require_perm: Number;
     data(command: SlashCommandBuilder): void;
     execute(client: Client, interaction: Interaction): void;
     autocomplete(client: Client, interaction: Interaction): void;
@@ -15,6 +17,10 @@ declare module 'discord.js' {
         events: Collection<string, Function>;
         commands: Collection<string, Command>;
         settings: any;
+        buttons: Collection<string, Command>;
+        menus: Collection<string, Command>;
+        modals: Collection<string, Command>;
+        owner: User | Team;
     }
 }
 
@@ -50,9 +56,13 @@ const client = new Client({
 
 client.events = new Collection<string, Function>();
 client.commands = new Collection<string, any>();
+client.buttons = new Collection<string, Command>();
+client.menus = new Collection<string, Command>();
+client.modals = new Collection<string, Command>();
 
 loadCommands(client);
 loadEvents(client);
+loadComponents(client);
 
 // Login to Discord
 client.login(config.DISCORD_TOKEN);

@@ -4,6 +4,7 @@ import { build_paged_embed } from "../util/settings";
 
 
 export default {
+    require_perm: 10,
     data: new SlashCommandBuilder()
         .setName('settings')
         .setDescription('Displays the server settings with pagination'),

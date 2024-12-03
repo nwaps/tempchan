@@ -4,6 +4,7 @@ import { get_settings, set_settings, unflattened_settings } from '../util/settin
 import { flatten_settings } from '../util/settings';
 
 export default {
+    require_perm: 10,
     data: new SlashCommandBuilder()
         .setName('set')
         .setDescription('An example command with autocomplete.')

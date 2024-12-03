@@ -1,4 +1,4 @@
-import { Client, REST, Routes, Collection } from 'discord.js';
+import { Client, REST, Routes, Collection, CommandInteractionOptionResolver } from 'discord.js';
 import path from 'path';
 import fs from 'fs';
 import config from '../../../config';
@@ -16,6 +16,7 @@ export async function loadCommands(client: Client) {
     const command = require(filePath).default;
     if (command.data && command.execute) {
       client.commands.set(command.data.name, command);
+      // console.log(command.data)
       commands.set(command.data.name, command);
       commandArray.push(command.data.toJSON());
     } else {
@@ -38,6 +39,7 @@ export async function loadCommands(client: Client) {
       const data: any = await rest.put(route, { body: commandArray });
       console.log(`Successfully reloaded ${data.length} application (/) commands.`);
     } catch (error) {
+      console.log(error)
       console.log("Failed to deploy commands")
     }
     // console.log(data)

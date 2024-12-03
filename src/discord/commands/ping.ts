@@ -2,6 +2,7 @@ import { SlashCommandBuilder, Message, Client, CommandInteraction } from 'discor
 
 
 export default {
+  require_perm: 0,
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Replies with Dong!'),

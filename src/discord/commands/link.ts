@@ -1,9 +1,8 @@
-import { Client, AutocompleteInteraction, CommandInteraction, Webhook, CommandInteractionOptionResolver } from 'discord.js';
+import { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { get_settings, set_settings, unflattened_settings } from '../util/settings';
-import messageCreate from '../events/messageCreate';
 
 export default {
+    require_perm: 1,
     data: new SlashCommandBuilder()
         .setName('link')
         .setDescription('Link the current channel to livechan')
@@ -11,22 +10,30 @@ export default {
     async execute(client: Client, interaction: any) {
         if (!interaction.isCommand()) return;
 
-        let channel = await interaction.guild.channels.fetch(interaction.channel.id);
-        let webhooks = await channel.fetchWebhooks()
+        const confirm_link = new ButtonBuilder()
+            .setCustomId("confirm-link")
+            .setLabel("YES! Connect to Livechan!")
+            .setStyle(ButtonStyle.Success)
 
-        if (webhooks.size == 0) {
-            await channel.createWebhook({ name: 'livechan' })
-            webhooks = await channel.fetchWebhooks()
-        }
+        const remove_link = new ButtonBuilder()
+            .setCustomId("remove-link")
+            .setLabel("NO! We don't want it!")
+            .setStyle(ButtonStyle.Danger);
 
-        let webhook = webhooks.first()
-        console.log(interaction.guild.iconURL())
+        await interaction.reply({
+            embeds: [
+                {
+                    type: "rich",
+                    title: `Are you sure you would like to link this channel?`,
+                    description: `By linking this channel, you will receive all messages in the overboard and send all messages from this channel to the overboard`,
+                    color: 0x00ffff,
+                },
+            ],
+            components: [new ActionRowBuilder().addComponents(confirm_link).addComponents(remove_link)],
+        });
 
-        await set_settings(interaction.guildId, { channels: { livechan: interaction.channel.id }, webhooks: { url: webhook.url, } })
 
-        const settings = await get_settings(interaction.guildId) // should probably cache this on the client
 
-        // Respond with the selected option
-        await interaction.reply(`Channel ${interaction.channel.id} to livechan`);
+
     },
 };

@@ -5,6 +5,7 @@ import { process_file } from '../util/download_file';
 import path from 'path';
 import config from '../../../config';
 import { get_settings } from '../util/settings';
+import { perm_level } from '../util/permissions';
 
 export default {
     name: Events.MessageCreate,
@@ -12,6 +13,7 @@ export default {
         if (message.author.bot) return;
         if (!message.guild) return
         // TODO store settings in the database
+        // console.log(await perm_level(message))
 
         const settings = await get_settings(message.guildId) // should probably cache this on the client
         if (message.channelId !== settings.channels.livechan) return;
