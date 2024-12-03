@@ -6,14 +6,14 @@ export default {
     require_perm: Permissions.ADMIN,
     data: new SlashCommandBuilder()
         .setName('link')
-        .setDescription('Link the current channel to livechan')
+        .setDescription('Link the current channel to Monoko')
     ,
     async execute(client: Client, interaction: any) {
         if (!interaction.isCommand()) return;
 
         const confirm_link = new ButtonBuilder()
             .setCustomId("confirm-link")
-            .setLabel("YES! Connect to Livechan!")
+            .setLabel("YES! Connect to Monoko!")
             .setStyle(ButtonStyle.Success)
 
         const remove_link = new ButtonBuilder()

@@ -12,16 +12,16 @@ module.exports = {
 
         let webhooks = await channel.fetchWebhooks()
         if (webhooks.size == 0) {
-            await channel.createWebhook({ name: 'livechan' })
+            await channel.createWebhook({ name: 'Monoko' })
             webhooks = await channel.fetchWebhooks()
         }
         let webhook = webhooks.first()
         if (!webhook) return
-        await set_settings(interaction.guildId, { channels: { livechan: interaction.channel.id }, webhooks: { url: webhook.url, } })
+        await set_settings(interaction.guildId, { channels: { monoko: interaction.channel.id }, webhooks: { url: webhook.url, } })
 
         const confirm_link = new ButtonBuilder()
             .setCustomId("confirm-link")
-            .setLabel("YES! Connect to Livechan!")
+            .setLabel("YES! Connect to Monoko!")
             .setStyle(ButtonStyle.Success)
             .setDisabled(true)
         const row = new ActionRowBuilder().addComponents(confirm_link);
@@ -29,7 +29,7 @@ module.exports = {
         await interaction.update({
             embeds: [{
                 title: `Linking confirmed!`,
-                description: `This channel is now linked to Livechan!`,
+                description: `This channel is now linked to Monoko!`,
                 color: 0x00ff00,
             }],
             components: [row],  

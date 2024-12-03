@@ -10,7 +10,7 @@ const defaultSettings = {
         member: null,
     },
     channels: {
-        livechan: null,
+        monoko: null,
     },
     webhooks: {
         url: null,

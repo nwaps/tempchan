@@ -14,7 +14,7 @@ export default {
         // TODO store settings in the database
 
         const settings = await get_settings(message.guildId) // should probably cache this on the client
-        if (message.channelId !== settings.channels.livechan) return;
+        if (message.channelId !== settings.channels.monoko) return;
         var message_object = {}
 
         const mostRecent = await message_model.findOne({}, {}, { sort: { 'post_id': -1 } }).exec();

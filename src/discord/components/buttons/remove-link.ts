@@ -13,16 +13,16 @@ module.exports = {
 
         let webhooks = await channel.fetchWebhooks()
         if (webhooks.size == 0) {
-            await channel.createWebhook({ name: 'livechan' })
+            await channel.createWebhook({ name: 'Monoko' })
             webhooks = await channel.fetchWebhooks()
         }
         let webhook = webhooks.first()
         if (!webhook) return
-        await set_settings(interaction.guildId, { channels: { livechan: "" }, webhooks: { url: ""} })
+        await set_settings(interaction.guildId, { channels: { monoko: "" }, webhooks: { url: ""} })
 
         const confirm_link = new ButtonBuilder()
             .setCustomId("confirm-link")
-            .setLabel("YES! Connect to Livechan!")
+            .setLabel("YES! Connect to Monoko!")
             .setStyle(ButtonStyle.Success)
             .setDisabled(true)
         const remove_link = new ButtonBuilder()

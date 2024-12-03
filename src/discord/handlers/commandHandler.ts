@@ -23,9 +23,10 @@ export async function loadCommands(client: Client) {
       console.warn(`The command file at ${filePath} is missing the "data" or "execute" property.`);
     }
   }
+  console.log(`${commandArray.length}`)
 
   const clientId = config.CLIENTID;
-  const devGuild = "1312736738044547102";
+  const devGuild = config.HOMESERVER;
   const rest = new REST().setToken(config.DISCORD_TOKEN);
   try {
     console.log(`Started refreshing ${commandArray.length} application (/) commands.`);
