@@ -26,7 +26,7 @@ export default (board: string, data: any) => {
                     if (data.body !== undefined) {
                         options.content = data.body;
                     }
-                    const url = `https://livechan.goodhew.lol/chat/${data.board}`
+                    const url = `https://monoko.chat/chat/${data.board}`
                     if (data.image) {
                         options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](<${url}>)`
                         // options.files = [{

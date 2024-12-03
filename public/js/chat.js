@@ -1259,7 +1259,7 @@ function set_channel(new_channel, new_post, no_push_state, tab) {
 
     // indicate new channel
     $('#board_select').val(new_channel);
-    title = "kotchan" + (new_channel === "home" ? "" : " - /" + new_channel);
+    title = "monoch" + (new_channel === "home" ? "" : " - /" + new_channel);
     window.document.title = title;
 
     // hide form, sidebar on /home, /all pages

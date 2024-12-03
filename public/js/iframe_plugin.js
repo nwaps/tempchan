@@ -58,7 +58,7 @@ iframe.style.width = width+'px';
 iframe.style.float = 'right';
 iframe.id='livechan_iframe';
 
-iframe.src = 'https://kotchan.org';
+iframe.src = 'https://monoko.chat';
 
 container.appendChild(iframe);
 container.appendChild(showhide);
