@@ -2,9 +2,10 @@ import { Client, AutocompleteInteraction, CommandInteraction } from 'discord.js'
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { get_settings, set_settings, unflattened_settings } from '../util/settings';
 import { flatten_settings } from '../util/settings';
+import { Permissions } from '../models/permissions';
 
 export default {
-    require_perm: 10,
+    require_perm: Permissions.BOT_OWNER,
     data: new SlashCommandBuilder()
         .setName('set')
         .setDescription('An example command with autocomplete.')
@@ -13,12 +14,12 @@ export default {
                 .setDescription('Choose which setting option you would like to modify')
                 .setRequired(true)
                 .setAutocomplete(true)
-        )
-        .addStringOption(option => 
-            option.setName('value')
-                .setDescription('New value of the setting option')
-                .setRequired(true)
         ),
+        // .addStringOption(option => 
+        //     option.setName('value')
+        //         .setDescription('New value of the setting option')
+        //         .setRequired(true)
+        // ),
     async autocomplete(client: Client, interaction: AutocompleteInteraction) {
         const autocomplete_options = await get_settings(interaction.guildId)
         const flattened_settings = flatten_settings(autocomplete_options)

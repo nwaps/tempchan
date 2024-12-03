@@ -60,6 +60,7 @@ client.buttons = new Collection<string, Command>();
 client.menus = new Collection<string, Command>();
 client.modals = new Collection<string, Command>();
 
+
 loadCommands(client);
 loadEvents(client);
 loadComponents(client);

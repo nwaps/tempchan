@@ -1,10 +1,11 @@
 import { SlashCommandBuilder, Interaction, Client } from "discord.js";
 import { get_settings } from "../util/settings";
 import { build_paged_embed } from "../util/settings";
+import { Permissions } from '../models/permissions';
 
 
 export default {
-    require_perm: 10,
+    require_perm: Permissions.BOT_OWNER,
     data: new SlashCommandBuilder()
         .setName('settings')
         .setDescription('Displays the server settings with pagination'),

@@ -1,8 +1,9 @@
 import { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { Permissions } from '../models/permissions';
 
 export default {
-    require_perm: 1,
+    require_perm: Permissions.ADMIN,
     data: new SlashCommandBuilder()
         .setName('link')
         .setDescription('Link the current channel to livechan')
