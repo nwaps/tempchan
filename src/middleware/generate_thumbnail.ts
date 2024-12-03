@@ -48,8 +48,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
     try {
         var stderr = "";
-        console.log(command);
-        console.log(args);
+        // console.log(command);
+        // console.log(args);
         var process = spawn(command, args);
         // if (category === "image") {
         //     fs.createReadStream(data.image).on("error", function(e) {console.log(e);}).pipe(process.stdin.on("error", function(e) {console.log(e);}));
