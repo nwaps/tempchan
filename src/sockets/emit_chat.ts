@@ -14,32 +14,28 @@ export default (board: string, data: any) => {
     if (data.chat == "General") { // global chat, send to all
         get_all_settings()
             .then((settings) => {
+                console.log(data.discord_avatar)
                 settings.forEach(set => {
                     if (set.guildId == data.from_discord) return
                     const webhookurl = set.settings.webhooks.url.toString()
                     const webhook = new WebhookClient({ url: webhookurl })
+                    const options: WebhookMessageCreateOptions = {};
+                    options.username = data.name || "livechan";
+                    options.avatarURL = data.discord_avatar || 'https://cdn.discordapp.com/avatars/1313062635763138562/e3254f51c050bb0d5ddfe5d21418a387.webp'
 
-                    webhook.edit({
-                        name: data.name,
-                        avatar: 'https://litterbox.catbox.moe/resources/qts/1458602218407.png',
-                    }).then(() => {
-                        // Create an object for the webhook message options
-                        const options: WebhookMessageCreateOptions = {};
+                    if (data.body !== undefined) {
+                        options.content = data.body;
+                    }
 
-                        if (data.body !== undefined) {
-                            options.content = data.body;
-                        }
+                    if (data.image) {
+                        options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](<http://livechan.goodhew.lol/chat/${data.board}>)`
+                        // options.files = [{
+                        // attachment: data.image
+                        // }];
+                    }
 
-                        if (data.image) {
-                            options.content += `\n\nThis message contains an image from livechan. [Upgrade to gold to view](<http://livechan.goodhew.lol/chat/${data.board}>)`
-                            // options.files = [{
-                                // attachment: data.image
-                            // }];
-                        }
-
-                        // Send the webhook message
-                        webhook.send(options);
-                    }).catch(console.error);
+                    // Send the webhook message
+                    webhook.send(options);
                 })
             })
     } else {

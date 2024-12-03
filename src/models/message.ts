@@ -21,6 +21,7 @@ export interface db_message {
     ip: string;
     user_agent: string;
     from_discord: string;
+    discord_avatar: string;
 }
 
 const message_schema = new Schema<db_message>({
@@ -40,6 +41,7 @@ const message_schema = new Schema<db_message>({
     ip: { type: String, required: true },
     user_agent: { type: String, required: true },
     from_discord: {type: String, required: false},
+    discord_avatar: {type: String, required: false}
 });
 
 

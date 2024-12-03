@@ -28,6 +28,7 @@ export default async (data: any) => {
         ip: data.ip,
         user_agent: data.user_agent,
         from_discord: data.from_discord,
+        discord_avatar: data.discord_avatar
     });
 
     await message.save();
