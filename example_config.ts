@@ -21,7 +21,7 @@ export default {
 
     // List of boards supported by the server. Add or remove board names
     // to change the number of boards supported.
-    boards: ['int', 'g'],
+    boards: ['freezer'],
 
     // Supported file types
     image_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],

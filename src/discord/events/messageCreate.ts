@@ -21,7 +21,7 @@ export default {
 
         message_object = {
             post_id: mostRecent ? mostRecent.post_id + 1 : 0,
-            board: 'int',
+            board: 'freezer',
             chat: 'General',
             name: message?.member?.nickname || message.author.username,
             body: message.content,
