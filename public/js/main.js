@@ -102,7 +102,7 @@ $(document).ready(function () {
     });
 
 	socket.on('connect', function() {
-		console.log("Connected to the kot") 
+		console.log("connected") 
 		if (conn_was_closed) set_channel(chat_id);
 		conn_was_closed = false;
 	});
